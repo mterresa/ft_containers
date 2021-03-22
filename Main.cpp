@@ -49,15 +49,27 @@ int main () {
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 
+	test3.erase(it);
+	it = test3.begin();
+	std::cout << *it << std::endl;
+	//---------
+	std::list<int>		er;
+	er.push_back(1);
+	er.push_back(2);
+	std::list<int>::iterator		sts = er.begin();
+	er.erase(sts);
+	sts = er.begin();
+	std::cout << *sts << std::endl;
+	//----------
 //	test4.assign(it, it2);
-	size_t n = 1;
-	test4.assign(n, 1);
-	ft::ListIterator<int>	it3 = test4.begin();
+//	size_t n = 1;
+//	test4.assign(n, 1);
+//	ft::ListIterator<int>	it3 = test4.begin();
 //	it3++;
-	test4.insert(it3, 2, 99);
-
-	std::cout << *it3 << std::endl;
-	std::cout << test4.size() << std::endl;
+//	test4.insert(it3, 2, 99);
+//
+//	std::cout << *it3 << std::endl;
+//	std::cout << test4.size() << std::endl;
 //	std::list<int>		st;
 //	st.push_back(8);
 //	std::list<int>::iterator		sts = st.begin();

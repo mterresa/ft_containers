@@ -26,6 +26,10 @@ namespace   ft {
 		ListIterator() {
 			ptr = NULL;
 		}
+		ListIterator<T>&	operator=(const ListIterator<T>& cpy) {
+			this->ptr = cpy.ptr;
+			return *this;
+		}
 		ListIterator(Node<T> *ptr) {
 			this->ptr = ptr;
 		}

@@ -82,7 +82,7 @@ namespace   ft {
         void    pop_back() {
             if (this->len > 0) {
                 Node<T> *ptr = this->last_ptr->prev;
-                this->head = this->head->prev;
+                this->head = ptr->prev;
                 this->head->next = ptr->next;
 				this->last_ptr->prev = this->last_ptr->prev->prev;
                 delete ptr;
@@ -166,7 +166,23 @@ namespace   ft {
 				first++;
 			}
         }
-
+//        ____ERASE____
+		ListIterator<T>	erase (ListIterator<T> position) {
+        	Node<T>	*ptr = position.getPtr();
+        	position.getPtr()->prev->next = position.getPtr()->next;
+        	position.getPtr()->next->prev = position.getPtr()->prev;
+        	position++;
+        	delete ptr;
+			this->len--;
+			return ListIterator<T>(ptr);
+        }
+		ListIterator<T> erase (ListIterator<T> first, ListIterator<T> last) {
+			while (first != last) {
+				this->erase(first);
+				first++;
+			}
+			return first;
+        }
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP
