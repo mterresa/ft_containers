@@ -26,32 +26,32 @@ namespace   ft {
 		ListIterator() {
 			ptr = NULL;
 		}
-		ListIterator(const Node<T> *ptr) {
+		ListIterator(Node<T> *ptr) {
 			this->ptr = ptr;
 		}
 		~ListIterator() {}
-		T	&operator*() {
+		T	&operator*() const{
 			return (this->ptr->data);
 		}
 		ListIterator<T>		operator++(int) {
 			ListIterator<T> old = *this;
-			this->ptr++;
+			this->ptr = ptr->next;
 			return(old);
 		}
 		ListIterator<T>	operator++() {
-			this->ptr++;
+			this->ptr = ptr->next;
 			return(*this);
 		}
 		ListIterator<T>	operator--(int) {
 			ListIterator<T> old = *this;
-			this->ptr--;
+			this->ptr = ptr->prev;
 			return(old);
 		}
 		ListIterator<T>	operator--() {
-			this->ptr--;
+			this->ptr = ptr->prev;
 			return(*this);
 		}
-		T	&operator->() {
+		T	&operator->() const {
 			return &(this->ptr->data);
 		}
 		bool		operator!=(const ListIterator<T> &cpy) {

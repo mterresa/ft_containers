@@ -19,10 +19,10 @@ namespace ft {
             this->prev = cpy.prev;
         }
         ~Node() {}
-        Node	*operator++(){
+        Node	*operator++(int){
 			return (this->next);
         }
-		Node	*operator--(){
+		Node	*operator--(int){
 			return (this->prev);
 		}
 		bool		operator!=(const Node<T> *cpy) {
@@ -31,7 +31,14 @@ namespace ft {
 		bool		operator==(const Node<T> *cpy) {
 			return (this->data == cpy->data);
 		}
-
+		Node&	operator=(const Node& cpy) {
+			if (this != &cpy) {
+				this->data = cpy.data;
+				this->next = cpy.next;
+				this->prev = cpy.prev;
+			}
+			return *this;
+		}
 
     };
 }

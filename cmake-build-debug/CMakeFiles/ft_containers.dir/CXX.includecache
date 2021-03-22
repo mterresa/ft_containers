@@ -6,17 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/Users/mterresa/Desktop/ft_containers/List.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Iterator.hpp
+iterator
+-
+Node.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Node.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/List.hpp
 string
 -
 iostream
 -
 Node.hpp
-/Users/mterresa/Desktop/ft_containers/Node.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Node.hpp
+Iterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Iterator.hpp
 
-/Users/mterresa/Desktop/ft_containers/Main.cpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Main.cpp
 List.hpp
-/Users/mterresa/Desktop/ft_containers/List.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List.hpp
+list
+-
+Iterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Iterator.hpp
 
-/Users/mterresa/Desktop/ft_containers/Node.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Node.hpp
 

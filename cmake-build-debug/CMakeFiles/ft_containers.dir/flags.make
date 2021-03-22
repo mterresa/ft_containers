@@ -6,5 +6,5 @@ CXX_FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/Ma
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/mterresa/Desktop/ft_containers/. 
+CXX_INCLUDES = -I/Users/mterresa/Desktop/my_git/ft_conteiners/. 
 
