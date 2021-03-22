@@ -127,6 +127,7 @@ namespace   ft {
 		ListIterator<T>		end() {
 			return ListIterator<T>(this->last_ptr);
 		}
+//		____ASSIGN____
 		template <class InputIterator>
 		void	assign (InputIterator first, InputIterator last) {
 			this->clear();
@@ -142,6 +143,30 @@ namespace   ft {
 				n--;
 			}
         }
+//        ____INSERT____
+		ListIterator<T> insert (ListIterator<T> position, const value_type& val) {
+        	Node<T>	*ptr = new Node<T>(val);
+        	ptr->next = position.getPtr();
+        	ptr->prev = position.getPtr()->prev;
+        	position.getPtr()->prev->next = ptr;
+        	position.getPtr()->prev = ptr;
+        	this->len++;
+			return ListIterator<T>(position);
+        }
+		void insert (ListIterator<T> position, size_type n, const value_type& val) {
+			while (n) {
+				this->insert(position, val);
+				n--;
+			}
+        }
+		template <class InputIterator>
+		void	insert (ListIterator<T> position, InputIterator first, InputIterator last) {
+			while (first != last) {
+				this->insert(position, *first);
+				first++;
+			}
+        }
+
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP

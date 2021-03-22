@@ -60,6 +60,9 @@ namespace   ft {
 		bool		operator==(const ListIterator<T> &cpy) {
 			return (this->ptr == cpy.ptr);
 		}
+		Node<T>	*getPtr() {
+			return ptr;
+		}
 	};
 }
 

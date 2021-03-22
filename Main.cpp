@@ -52,8 +52,17 @@ int main () {
 //	test4.assign(it, it2);
 	size_t n = 1;
 	test4.assign(n, 1);
-	std::cout << test4.front() << std::endl;
-	std::cout << test4.back() << std::endl;
+	ft::ListIterator<int>	it3 = test4.begin();
+//	it3++;
+	test4.insert(it3, 2, 99);
+
+	std::cout << *it3 << std::endl;
+	std::cout << test4.size() << std::endl;
+//	std::list<int>		st;
+//	st.push_back(8);
+//	std::list<int>::iterator		sts = st.begin();
+//	st.insert(sts, 2);
+//	std::cout << *sts << std::endl;
 //	std::cout << *it << std::endl;
 //	it++;
 //	std::cout << *it << std::endl;
