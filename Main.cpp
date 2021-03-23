@@ -46,20 +46,35 @@ int main () {
 	test3.push_front(3);
 //	test3.pop_front();
 //	test3.push_back(99);
+//	ft::ListIterator<int>	it = test3.begin();
+//	ft::ListIterator<int>	it2 = test3.end();
+
+	test4.push_back(99);
+	test3.swap(test4);
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
-
-	test3.erase(it);
-	it = test3.begin();
-	std::cout << *it << std::endl;
-	//---------
-	std::list<int>		er;
-	er.push_back(1);
-	er.push_back(2);
-	std::list<int>::iterator		sts = er.begin();
-	er.erase(sts);
-	sts = er.begin();
-	std::cout << *sts << std::endl;
+	while (it != it2) {
+		std::cout << *it << " ";
+		it++;
+	}
+	std::cout << "\n";
+	ft::ListIterator<int>	it4 = test4.begin();
+	ft::ListIterator<int>	it5 = test4.end();
+	while (it4 != it5) {
+		std::cout << *it4 << " ";
+		it4++;
+	}
+//	test3.erase(it);
+//	it = test3.begin();
+//	std::cout << *it << std::endl;
+//	//---------
+//	std::list<int>		er;
+//	er.push_back(1);
+//	er.push_back(2);
+//	std::list<int>::iterator		sts = er.begin();
+//	er.erase(sts);
+//	sts = er.begin();
+//	std::cout << *sts << std::endl;
 	//----------
 //	test4.assign(it, it2);
 //	size_t n = 1;

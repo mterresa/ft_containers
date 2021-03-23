@@ -183,6 +183,25 @@ namespace   ft {
 			}
 			return first;
         }
+		void	swap (List& x) {
+			Node<T>         *tmp_head;
+			Node<T>         *tmp_last_ptr;
+			allocator_type  tmp_alloc;
+			size_type       tmp_len;
+
+			tmp_head = this->head;
+			tmp_last_ptr = this->last_ptr;
+			tmp_alloc = this->alloc;
+			tmp_len = this->len;
+			this->head = x.head;
+			this->last_ptr = x.last_ptr;
+			this->alloc = x.alloc;
+			this->len = x.len;
+			x.head = tmp_head;
+			x.last_ptr = tmp_last_ptr;
+			x.alloc = tmp_alloc;
+			x.len = tmp_len;
+        }
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP

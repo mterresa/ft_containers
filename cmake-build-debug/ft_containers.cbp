@@ -91,6 +91,9 @@
 		<Unit filename="/Users/mterresa/Desktop/my_git/ft_conteiners/Node.hpp">
 			<Option target="ft_containers"/>
 		</Unit>
+		<Unit filename="/Users/mterresa/Desktop/my_git/ft_conteiners/cmake-build-debug/Check.hpp">
+			<Option target="ft_containers"/>
+		</Unit>
 		<Unit filename="/Users/mterresa/Desktop/my_git/ft_conteiners/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
