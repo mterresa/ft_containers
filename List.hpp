@@ -260,6 +260,19 @@ namespace   ft {
 			}
 			return i;
         }
+//        ____REMOVE____
+		void	remove (const value_type & val) {
+			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+				if (*it == val)
+					it = this->erase(it);
+        }
+
+		template <class Predicate>
+		void	remove_if (Predicate pred) {
+			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+				if (pred(*it) == true)
+					it = this->erase(it);
+        }
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP

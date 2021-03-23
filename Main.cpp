@@ -6,6 +6,8 @@
 #include <list>
 #include "Iterator.hpp"
 
+bool single_digit (const int& value) { return (value>10); }
+
 int main () {
 //    ft::List<int> asd (6, 7);
 //    std::list<std::string>::iterator it;
@@ -68,8 +70,11 @@ int main () {
 //	}
 //	it++;
 	std::cout << "size = " <<test3.size() <<"\n";
+//	test4.remove(99);
+	test4.remove_if(single_digit);
 	it4 = test4.begin();
 	it5 = test4.end();
+
 	while (it4 != it5) {
 		std::cout << *it4 << " ";
 		it4++;
