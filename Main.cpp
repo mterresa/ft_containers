@@ -46,25 +46,36 @@ int main () {
 	test3.push_front(3);
 //	test3.pop_front();
 //	test3.push_back(99);
-	test3.resize(5, 5);
+//	test3.resize(5, 5);
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 
-//	test4.push_back(99);
+	test4.push_back(99);
+	test4.push_back(100);
 //	test3.swap(test4);
 //	ft::ListIterator<int>	it = test3.begin();
 //	ft::ListIterator<int>	it2 = test3.end();
-	while (it != it2) {
-		std::cout << *it << " ";
-		it++;
-	}
-//	std::cout << "\n";
-//	ft::ListIterator<int>	it4 = test4.begin();
-//	ft::ListIterator<int>	it5 = test4.end();
-//	while (it4 != it5) {
-//		std::cout << *it4 << " ";
-//		it4++;
+
+	ft::ListIterator<int>	it4 = test4.begin();
+	ft::ListIterator<int>	it5 = test4.end();
+	it4++;
+	test4.splice(it4, test3, it);
+//	it = test3.begin();
+//	it2 = test3.end();
+//	while (it != it2) {
+//		std::cout << *it << " ";
+//		it++;
 //	}
+//	it++;
+	std::cout << "size = " <<test3.size() <<"\n";
+	it4 = test4.begin();
+	it5 = test4.end();
+	while (it4 != it5) {
+		std::cout << *it4 << " ";
+		it4++;
+	}
+	std::cout << "size = " <<test4.size() <<"\n";
+
 //	test3.erase(it);
 //	it = test3.begin();
 //	std::cout << *it << std::endl;
@@ -79,7 +90,7 @@ int main () {
 	//----------
 //	test4.assign(it, it2);
 //	size_t n = 1;
-	test4.assign(1, 1);
+//	test4.assign(1, 1);
 //	ft::ListIterator<int>	it3 = test4.begin();
 //	it3++;
 //	test4.insert(it3, 2, 99);

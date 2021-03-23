@@ -187,6 +187,7 @@ namespace   ft {
 			}
 			return first;
         }
+//        ____SWAP____
 		void	swap (List& x) {
 			Node<T>         *tmp_head;
 			Node<T>         *tmp_last_ptr;
@@ -206,11 +207,58 @@ namespace   ft {
 			x.alloc = tmp_alloc;
 			x.len = tmp_len;
         }
+//        ____RESIZE____
 		void	resize (size_type n, value_type val = value_type ()) {
 			while (this->len < n)
 				this->push_back(val);
 			while (this->len > n)
 				this->pop_back();
+        }
+//        ____SPLICE____
+		void	splice (ListIterator<T> position, List& x) {
+			ft::ListIterator<T>	it = x.begin();
+			ft::ListIterator<T>	it2 = x.end();
+			this->splice(position, x, it, it2);
+        }
+		void splice (ListIterator<T> position, List& x, ListIterator<T> i) {
+        	ft::ListIterator<T> it = i;
+			this->splice(position, x, i, ++it);
+        }
+		void	splice (ListIterator<T> position, List& x, ListIterator<T> first, ListIterator<T> last) {
+        	Node<T>		*_position = position.getPtr();
+        	Node<T>		*_first = first.getPtr();
+        	Node<T>		*_last = last.getPtr();
+			size_t		len_x = x.len_cpy(first, last);
+			Node<T>		*_lpr = _last->prev;
+
+			_first->prev->next = _last;
+			_last->prev = _first->prev;
+
+			_position->prev->next = _first;
+			_first->prev = _position->prev;
+			_position->prev = _lpr;
+			_lpr->next = _position;
+			x.len -= len_x;
+			this->len += len_x;
+//	______________________NOT_WORK_________________________________
+//        	size_t len_x = x.len_cpy(first, last);
+//			x.len -= len_x;
+//			first.getPtr()->prev->next = last.getPtr();
+//        	last.getPtr()->prev = first.getPtr()->prev;
+
+//        	position.getPtr()->prev->next = first.getPtr();
+//        	first.getPtr()->prev = position.getPtr()->prev;
+//        	position.getPtr()->prev = last.getPtr()->prev;
+//        	last.getPtr()->prev->next = position.getPtr();
+//			this->len += len_x;
+        }
+        size_t 	len_cpy(ListIterator<T> first, ListIterator<T> last) {
+        	size_t i = 0;
+			while (first != last) {
+				first++;
+				i++;
+			}
+			return i;
         }
     };
 }
