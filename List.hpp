@@ -13,6 +13,10 @@
 #include "Iterator.hpp"
 
 namespace   ft {
+
+#define _ENABLE_INPUT(type_name) \
+			typename std::enable_if< std::__is_input_iterator<type_name>::value,type_name >::type
+
     template < class T, class Alloc = std::allocator<T> >
     class List {
     public:                                         //Member types
@@ -129,7 +133,7 @@ namespace   ft {
 		}
 //		____ASSIGN____
 		template <class InputIterator>
-		void	assign (InputIterator first, InputIterator last) {
+		void	assign (InputIterator first, _ENABLE_INPUT(InputIterator) last) {
 			this->clear();
 			while (first != last) {
 				this->push_back(*first);
@@ -160,7 +164,7 @@ namespace   ft {
 			}
         }
 		template <class InputIterator>
-		void	insert (ListIterator<T> position, InputIterator first, InputIterator last) {
+		void	insert (ListIterator<T> position, InputIterator first, _ENABLE_INPUT(InputIterator) last) {
 			while (first != last) {
 				this->insert(position, *first);
 				first++;
@@ -201,6 +205,12 @@ namespace   ft {
 			x.last_ptr = tmp_last_ptr;
 			x.alloc = tmp_alloc;
 			x.len = tmp_len;
+        }
+		void	resize (size_type n, value_type val = value_type ()) {
+			while (this->len < n)
+				this->push_back(val);
+			while (this->len > n)
+				this->pop_back();
         }
     };
 }

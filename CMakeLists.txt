@@ -8,4 +8,4 @@ include_directories(.)
 add_executable(ft_containers
         List.hpp
         Main.cpp
-        Node.hpp cmake-build-debug/Check.hpp)
+        Node.hpp)
