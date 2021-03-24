@@ -273,6 +273,18 @@ namespace   ft {
 				if (pred(*it) == true)
 					it = this->erase(it);
         }
+//        ____UNIQUE____
+		void	unique() {
+			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+				if (it.getPtr()->data == it.getPtr()->prev->data)
+					erase(it);
+        }
+		template <class BinaryPredicate>
+		void	unique (BinaryPredicate binary_pred) {
+			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+				if (binary_pred(it.getPtr()->data, it.getPtr()->prev->data) == true)
+					erase(it);
+        }
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP

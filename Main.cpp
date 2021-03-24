@@ -8,7 +8,10 @@
 
 bool single_digit (const int& value) { return (value>10); }
 
-int main () {
+bool same_integral_part (int first, int second)
+{ return ( first == second ); }
+
+	int main () {
 //    ft::List<int> asd (6, 7);
 //    std::list<std::string>::iterator it;
 //    std::list<std::string>	l;
@@ -45,41 +48,45 @@ int main () {
 
 	test3.push_front(1);
 	test3.push_front(2);
+	test3.push_front(2);
+	test3.push_front(2);
+	test3.push_front(3);
 	test3.push_front(3);
 //	test3.pop_front();
 //	test3.push_back(99);
 //	test3.resize(5, 5);
+	test3.unique(same_integral_part);
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 
-	test4.push_back(99);
-	test4.push_back(100);
+//	test4.push_back(99);
+//	test4.push_back(100);
 //	test3.swap(test4);
 //	ft::ListIterator<int>	it = test3.begin();
 //	ft::ListIterator<int>	it2 = test3.end();
 
-	ft::ListIterator<int>	it4 = test4.begin();
-	ft::ListIterator<int>	it5 = test4.end();
-	it4++;
-	test4.splice(it4, test3, it);
+//	ft::ListIterator<int>	it4 = test4.begin();
+//	ft::ListIterator<int>	it5 = test4.end();
+//	it4++;
+//	test4.splice(it4, test3, it);
 //	it = test3.begin();
 //	it2 = test3.end();
-//	while (it != it2) {
-//		std::cout << *it << " ";
-//		it++;
-//	}
-//	it++;
-	std::cout << "size = " <<test3.size() <<"\n";
-//	test4.remove(99);
-	test4.remove_if(single_digit);
-	it4 = test4.begin();
-	it5 = test4.end();
-
-	while (it4 != it5) {
-		std::cout << *it4 << " ";
-		it4++;
+	while (it != it2) {
+		std::cout << *it << " ";
+		it++;
 	}
-	std::cout << "size = " <<test4.size() <<"\n";
+//	it++;
+//	std::cout << "size = " <<test3.size() <<"\n";
+//	test4.remove(99);
+//	test4.remove_if(single_digit);
+//	it4 = test4.begin();
+//	it5 = test4.end();
+//
+//	while (it4 != it5) {
+//		std::cout << *it4 << " ";
+//		it4++;
+//	}
+//	std::cout << "size = " <<test4.size() <<"\n";
 
 //	test3.erase(it);
 //	it = test3.begin();
