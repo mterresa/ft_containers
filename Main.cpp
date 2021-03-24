@@ -57,6 +57,7 @@ bool same_integral_part (int first, int second)
 //	test3.resize(5, 5);
 //	test3.unique(same_integral_part);
 	test3.sort(same_integral_part);
+	test3.reverse();
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 

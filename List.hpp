@@ -309,6 +309,12 @@ namespace   ft {
 					it++;
 			}
         }
+		void	reverse() {
+			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it) {
+				this->push_front(*it);
+				this->erase(it);
+			}
+        }
 	private:
 		void 	swap_node(Node<T> *first, Node<T> *second) {
 			Node<T> *_p_first = first->prev;
