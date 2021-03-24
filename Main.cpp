@@ -9,7 +9,7 @@
 bool single_digit (const int& value) { return (value>10); }
 
 bool same_integral_part (int first, int second)
-{ return ( first == second ); }
+{ return ( first > second ); }
 
 	int main () {
 //    ft::List<int> asd (6, 7);
@@ -46,16 +46,17 @@ bool same_integral_part (int first, int second)
 	ft::List<int>	test3;
 	ft::List<int>	test4;
 
-	test3.push_front(1);
-	test3.push_front(2);
-	test3.push_front(2);
-	test3.push_front(2);
-	test3.push_front(3);
-	test3.push_front(3);
+	test3.push_back(1);
+	test3.push_back(4);
+	test3.push_back(2);
+	test3.push_back(9);
+	test3.push_back(17);
+	test3.push_back(3);
 //	test3.pop_front();
 //	test3.push_back(99);
 //	test3.resize(5, 5);
-	test3.unique(same_integral_part);
+//	test3.unique(same_integral_part);
+	test3.sort(same_integral_part);
 	ft::ListIterator<int>	it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 

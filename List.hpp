@@ -285,6 +285,42 @@ namespace   ft {
 				if (binary_pred(it.getPtr()->data, it.getPtr()->prev->data) == true)
 					erase(it);
         }
+//        ____SORT____
+		void	sort() {
+			ft::ListIterator<T> it = this->begin();
+			while (it.getPtr()->next != this->end().getPtr()) {
+				if (it.getPtr()->data > it.getPtr()->next->data) {
+					this->swap_node(it.getPtr(), it.getPtr()->next);
+					it = this->begin();
+				}
+				else
+					it++;
+			}
+        }
+		template <class Compare>
+		void	sort (Compare comp) {
+			ft::ListIterator<T> it = this->begin();
+			while (it.getPtr()->next != this->end().getPtr()) {
+				if (comp(it.getPtr()->data, it.getPtr()->next->data) == true) {
+					this->swap_node(it.getPtr(), it.getPtr()->next);
+					it = this->begin();
+				}
+				else
+					it++;
+			}
+        }
+	private:
+		void 	swap_node(Node<T> *first, Node<T> *second) {
+			Node<T> *_p_first = first->prev;
+			Node<T> *_n_second = second->next;
+
+			first->next = _n_second;
+			first->next->prev = first;
+			first->prev = second;
+			second->next = first;
+			second->prev = _p_first;
+			second->prev->next = second;
+		}
     };
 }
 #endif //FT_CONTAINERS_LIST_HPP
