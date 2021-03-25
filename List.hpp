@@ -28,7 +28,7 @@ namespace   ft {
         typedef const T     *const_pointer;
         typedef ptrdiff_t   difference_type;
         typedef size_t      size_type;
-//        class               iterator;
+        typedef ListIterator<T>              iterator;
 //        class               const_iterator;
 //        class               reverse_iterator;
 //        class               const_reverse_iterator;
@@ -37,9 +37,12 @@ namespace   ft {
 		Node<T>         *last_ptr;
         allocator_type  alloc;
         size_type       len;
+		std::allocator<Node<T> > *_alloc;
     public:
         explicit List(const allocator_type &alloc = allocator_type()) : alloc(alloc), len(0) {
-            this->head = new Node<T>();
+//            this->head = new Node<T>();
+            this->head = _alloc->allocate(1, 0);
+			_alloc->construct(this->head, 0);
 			this->head->data = 0;
 			this->head->next = this->head;
 			this->head->prev = this->head;
@@ -58,7 +61,9 @@ namespace   ft {
 		}
 		~List() {
 			this->clear();
-			delete this->last_ptr;
+//			delete this->last_ptr;
+			_alloc->destroy(this->last_ptr);
+			_alloc->deallocate(this->last_ptr, 1);
         }
 		void 	clear() {
 			while (this->len)
@@ -76,7 +81,9 @@ namespace   ft {
 //        ____BACK____
         void    push_back(const value_type& val) {
         	Node<T> *ptr = this->last_ptr->prev;
-			this->head = new Node<T>(val);
+//			this->head = new Node<T>(val);
+			this->head = _alloc->allocate(1);
+			_alloc->construct(this->head, val);
 			this->head->next = ptr->next;
 			this->head->prev = ptr;
 			this->last_ptr->prev = this->head;
@@ -89,7 +96,9 @@ namespace   ft {
                 this->head = ptr->prev;
                 this->head->next = ptr->next;
 				this->last_ptr->prev = this->last_ptr->prev->prev;
-                delete ptr;
+//                delete ptr;
+				_alloc->destroy(ptr);
+				_alloc->deallocate(ptr, 1);
                 this->len--;
             }
         }
@@ -102,7 +111,9 @@ namespace   ft {
 //        ____FRONT____
 		void 	push_front(const value_type& val) {
 			Node<T> *ptr = this->last_ptr->next;
-			this->head = new Node<T>(val);
+//			this->head = new Node<T>(val);
+			this->head = _alloc->allocate(1);
+			_alloc->construct(this->head, val);
 			this->head->prev = ptr->prev;
 			this->head->next = ptr;
 			this->last_ptr->next = this->head;
@@ -114,7 +125,8 @@ namespace   ft {
 				Node<T> *ptr = this->last_ptr->next;
 				this->last_ptr->next = ptr->next;
 				ptr->next->prev = this->last_ptr;
-				delete ptr;
+				_alloc->destroy(ptr);
+				_alloc->deallocate(ptr, 1);
 				this->len--;
 			}
         }
@@ -149,7 +161,9 @@ namespace   ft {
         }
 //        ____INSERT____
 		ListIterator<T> insert (ListIterator<T> position, const value_type& val) {
-        	Node<T>	*ptr = new Node<T>(val);
+//        	Node<T>	*ptr = new Node<T>(val);
+			Node<T> *ptr = _alloc->allocate(1);
+			_alloc->construct(ptr, val);
         	ptr->next = position.getPtr();
         	ptr->prev = position.getPtr()->prev;
         	position.getPtr()->prev->next = ptr;
@@ -176,7 +190,9 @@ namespace   ft {
         	position.getPtr()->prev->next = position.getPtr()->next;
         	position.getPtr()->next->prev = position.getPtr()->prev;
         	position++;
-        	delete ptr;
+//        	delete ptr;
+			_alloc->destroy(ptr);
+			_alloc->deallocate(ptr, 1);
 			this->len--;
 			return ListIterator<T>(ptr);
         }
@@ -252,14 +268,6 @@ namespace   ft {
 //        	last.getPtr()->prev->next = position.getPtr();
 //			this->len += len_x;
         }
-        size_t 	len_cpy(ListIterator<T> first, ListIterator<T> last) {
-        	size_t i = 0;
-			while (first != last) {
-				first++;
-				i++;
-			}
-			return i;
-        }
 //        ____REMOVE____
 		void	remove (const value_type & val) {
 			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
@@ -315,6 +323,58 @@ namespace   ft {
 				this->erase(it);
 			}
         }
+		void	merge (List& x) {
+        	ListIterator<T>		begin_x = x.end();
+			ListIterator<T>		end_x = x.end();
+			ListIterator<T>		it = this->begin();
+			ListIterator<T>		it2 = this->end();
+
+			begin_x--;
+			while (it != it2 && begin_x != end_x) {
+				if (*begin_x <= *it) {
+					this->splice(it, x, begin_x);
+					it = this->begin();
+					begin_x = x.end();
+					begin_x--;
+				}
+				else if ((begin_x != end_x) && (it.getPtr()->next == it2.getPtr())) {
+					this->splice(++it, x, begin_x);
+					it = this->begin();
+					begin_x = x.end();
+					begin_x--;
+				}
+				else if (*begin_x > *it && it != it2)
+					it++;
+			}
+        }
+		template <class Compare>
+		void	merge (List& x, Compare comp) {
+			ListIterator<T>		begin_x = x.end();
+			ListIterator<T>		end_x = x.end();
+			ListIterator<T>		it = this->begin();
+			ListIterator<T>		it2 = this->end();
+
+			begin_x--;
+			while (it != it2 && begin_x != end_x) {
+				if (comp(begin_x.getPtr()->data, it.getPtr()->data) == true) {
+					this->splice(it, x, begin_x);
+					it = this->begin();
+					begin_x = x.end();
+					begin_x--;
+				}
+				else if ((begin_x != end_x) && (it.getPtr()->next == it2.getPtr())) {
+					this->splice(++it, x, begin_x);
+					it = this->begin();
+					begin_x = x.end();
+					begin_x--;
+				}
+				else if (*begin_x >= *it && it != it2)
+					it++;
+			}
+        }
+		allocator_type	get_allocator() const {
+			return alloc;
+        }
 	private:
 		void 	swap_node(Node<T> *first, Node<T> *second) {
 			Node<T> *_p_first = first->prev;
@@ -326,6 +386,14 @@ namespace   ft {
 			second->next = first;
 			second->prev = _p_first;
 			second->prev->next = second;
+		}
+		size_t 	len_cpy(ListIterator<T> first, ListIterator<T> last) {
+			size_t i = 0;
+			while (first != last) {
+				first++;
+				i++;
+			}
+			return i;
 		}
     };
 }

@@ -11,6 +11,9 @@ bool single_digit (const int& value) { return (value>10); }
 bool same_integral_part (int first, int second)
 { return ( first > second ); }
 
+bool mycomparison (int first, int second)
+{ return ( first < second ); }
+
 	int main () {
 //    ft::List<int> asd (6, 7);
 //    std::list<std::string>::iterator it;
@@ -43,26 +46,30 @@ bool same_integral_part (int first, int second)
 //	ft::ListIterator<int>	it2 = test.end();
 //	std::cout << *it2 << "\n";
 //	-----------------------------------TEST_FRONT----------------------------------
-	ft::List<int>	test3;
+
+ft::List<int>	test3;
 	ft::List<int>	test4;
 
 	test3.push_back(1);
 	test3.push_back(4);
 	test3.push_back(2);
-	test3.push_back(9);
+	test3.push_back(10);
 	test3.push_back(17);
 	test3.push_back(3);
 //	test3.pop_front();
 //	test3.push_back(99);
 //	test3.resize(5, 5);
 //	test3.unique(same_integral_part);
-	test3.sort(same_integral_part);
-	test3.reverse();
-	ft::ListIterator<int>	it = test3.begin();
+//	test3.sort(same_integral_part);
+//	test3.reverse();
+
+//	test4.push_back(10);
+//	test4.push_back(100);
+//	test4.push_back(99);
+//	test3.merge(test4, mycomparison);
+	ft::List<int>::iterator it = test3.begin();
 	ft::ListIterator<int>	it2 = test3.end();
 
-//	test4.push_back(99);
-//	test4.push_back(100);
 //	test3.swap(test4);
 //	ft::ListIterator<int>	it = test3.begin();
 //	ft::ListIterator<int>	it2 = test3.end();
@@ -78,7 +85,40 @@ bool same_integral_part (int first, int second)
 		it++;
 	}
 //	it++;
-//	std::cout << "size = " <<test3.size() <<"\n";
+
+	std::cout << "\n";
+
+		ft::List<int> mylist;
+		int * p;
+
+		// allocate an array of 5 elements using mylist's allocator:
+		p=mylist.get_allocator().allocate(5);
+
+		// assign some values to array
+		for (int i=0; i<5; ++i) p[i]=i;
+
+		std::cout << "The allocated array contains:";
+		for (int i=0; i<5; ++i) std::cout << ' ' << p[i];
+		std::cout << '\n';
+
+		mylist.get_allocator().deallocate(p,5);
+		while (1)
+			;
+
+//	std::list<int>		ll;
+//
+//	ll.push_back(10);
+//	ll.push_back(10);
+//
+//		std::list<int>		ll2;
+//
+//		ll2.push_back(12);
+//		ll2.push_back(11);
+//		ll.merge(ll2, mycomparison);
+//
+//		for (std::list<int>::iterator it = ll.begin(); it != ll.end(); ++it)
+//			std::cout << *it << " " ;
+
 //	test4.remove(99);
 //	test4.remove_if(single_digit);
 //	it4 = test4.begin();
