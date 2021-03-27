@@ -27,8 +27,10 @@ namespace   ft {
 			ptr = NULL;
 		}
 		ListIterator<T>&	operator=(const ListIterator<T>& cpy) {
-			this->ptr = cpy.ptr;
-			return *this;
+			if (this != &cpy) {
+				this->ptr = cpy.ptr;
+				return *this;
+			}
 		}
 		ListIterator(Node<T> *ptr) {
 			this->ptr = ptr;
@@ -36,6 +38,9 @@ namespace   ft {
 		~ListIterator() {}
 		T	&operator*() const{
 			return (this->ptr->data);
+		}
+		T	&operator->() const{
+			return &(this->ptr->data);
 		}
 		ListIterator<T>		operator++(int) {
 			ListIterator<T> old = *this;
@@ -55,9 +60,6 @@ namespace   ft {
 			this->ptr = ptr->prev;
 			return(*this);
 		}
-		T	&operator->() const {
-			return &(this->ptr->data);
-		}
 		bool		operator!=(const ListIterator<T> &cpy) {
 			return (this->ptr != cpy.ptr);
 		}
@@ -68,6 +70,70 @@ namespace   ft {
 			return ptr;
 		}
 	};
+
+	template<class T>
+	class ConstListIterator : public iterator<std::bidirectional_iterator_tag, const T> {
+	private:
+		Node <T> *ptr;
+	public:
+		ConstListIterator() {
+			ptr = NULL;
+		}
+
+		ConstListIterator<T> &operator=(const ConstListIterator<T> &cpy) {
+			this->ptr = cpy.ptr;
+			return *this;
+		}
+
+		ConstListIterator(Node <T> *ptr) {
+			this->ptr = ptr;
+		}
+
+		~ConstListIterator() {}
+
+		T &operator*() const {
+			return (this->ptr->data);
+		}
+
+		T &operator->() const {
+			return &(this->ptr->data);
+		}
+
+		ConstListIterator<T> operator++(int) {
+			ConstListIterator<T> old = *this;
+			this->ptr = ptr->next;
+			return (old);
+		}
+
+		ConstListIterator<T> operator++() {
+			this->ptr = ptr->next;
+			return (*this);
+		}
+
+		ConstListIterator<T> operator--(int) {
+			ConstListIterator<T> old = *this;
+			this->ptr = ptr->prev;
+			return (old);
+		}
+
+		ConstListIterator<T> operator--() {
+			this->ptr = ptr->prev;
+			return (*this);
+		}
+
+		bool operator!=(const ConstListIterator<T> &cpy) const{
+			return (this->ptr != cpy.ptr);
+		}
+
+		bool operator==(const ConstListIterator<T> &cpy) const{
+			return (this->ptr == cpy.ptr);
+		}
+
+		Node <T> *getPtr() {
+			return ptr;
+		}
+	};
 }
+
 
 #endif //FT_CONTAINERS_ITERATOR_HPP

@@ -29,7 +29,7 @@ namespace   ft {
         typedef ptrdiff_t   difference_type;
         typedef size_t      size_type;
         typedef ListIterator<T>              iterator;
-//        class               const_iterator;
+        typedef ConstListIterator<T>         const_iterator;
 //        class               reverse_iterator;
 //        class               const_reverse_iterator;
     private:
