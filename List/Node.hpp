@@ -31,14 +31,14 @@ namespace ft {
 		bool		operator==(const Node<T> *cpy) {
 			return (this->data == cpy->data);
 		}
-		Node&	operator=(const Node& cpy) {
-			if (this != &cpy) {
-				this->data = cpy.data;
-				this->next = cpy.next;
-				this->prev = cpy.prev;
-			}
-			return *this;
-		}
+//		Node&	operator=(const Node& cpy) {
+//			if (this != &cpy) {
+//				this->data = cpy.data;
+//				this->next = cpy.next;
+//				this->prev = cpy.prev;
+//			}
+//			return *this;
+//		}
 
     };
 }

@@ -48,7 +48,6 @@ bool mycomparison (int first, int second)
 //	-----------------------------------TEST_FRONT----------------------------------
 
 ft::List<int>	test3;
-	ft::List<int>	test4;
 
 	test3.push_back(1);
 	test3.push_back(4);
@@ -74,8 +73,6 @@ ft::List<int>	test3;
 //	ft::ListIterator<int>	it = test3.begin();
 //	ft::ListIterator<int>	it2 = test3.end();
 
-//	ft::ListIterator<int>	it4 = test4.begin();
-//	ft::ListIterator<int>	it5 = test4.end();
 //	it4++;
 //	test4.splice(it4, test3, it);
 //	it = test3.begin();
@@ -88,20 +85,20 @@ ft::List<int>	test3;
 
 	std::cout << "\n";
 
-		ft::List<int> mylist;
-		int * p;
-
-		// allocate an array of 5 elements using mylist's allocator:
-		p=mylist.get_allocator().allocate(5);
-
-		// assign some values to array
-		for (int i=0; i<5; ++i) p[i]=i;
-
-		std::cout << "The allocated array contains:";
-		for (int i=0; i<5; ++i) std::cout << ' ' << p[i];
-		std::cout << '\n';
-
-		mylist.get_allocator().deallocate(p,5);
+//		ft::List<int> mylist;
+//		int * p;
+//
+//		// allocate an array of 5 elements using mylist's allocator:
+//		p=mylist.get_allocator().allocate(5);
+//
+//		// assign some values to array
+//		for (int i=0; i<5; ++i) p[i]=i;
+//
+//		std::cout << "The allocated array contains:";
+//		for (int i=0; i<5; ++i) std::cout << ' ' << p[i];
+//		std::cout << '\n';
+//
+//		mylist.get_allocator().deallocate(p,5);
 
 //	std::list<int>		ll;
 //
@@ -121,11 +118,17 @@ ft::List<int>	test3;
 //	test4.remove_if(single_digit);
 //	it4 = test4.begin();
 //	it5 = test4.end();
+		ft::List<int>	test4(test3);
 //
-//	while (it4 != it5) {
-//		std::cout << *it4 << " ";
-//		it4++;
-//	}
+		ft::ListIterator<int>	it4 = test4.begin();
+		ft::ListIterator<int>	it5 = test4.end();
+//
+	while (it4 != it5) {
+		std::cout << *it4 << " ";
+		it4++;
+	}
+	if (test3 == test4)
+		std::cout << "Work!" << std::endl;
 //	std::cout << "size = " <<test4.size() <<"\n";
 
 //	test3.erase(it);

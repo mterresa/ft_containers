@@ -48,8 +48,33 @@ namespace   ft {
 			this->last_ptr = this->head;
         }
         explicit List(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc(alloc) {
+			this->head = _alloc->allocate(1, 0);
+			_alloc->construct(this->head, 0);
+			this->head->data = 0;
+			this->head->next = this->head;
+			this->head->prev = this->head;
+			this->last_ptr = this->head;
             for (size_t i = 0; i < n; i++)
                 this->push_back(val);
+        }
+		template <class InputIterator>
+		List (InputIterator first, _ENABLE_INPUT(InputIterator) last, const allocator_type& alloc = allocator_type()) {
+			this->head = _alloc->allocate(1, 0);
+			_alloc->construct(this->head, 0);
+			this->head->data = 0;
+			this->head->next = this->head;
+			this->head->prev = this->head;
+			this->last_ptr = this->head;
+			this->template assign(first, last);
+        }
+		List (const List& x) : alloc(x.alloc), len(0) {
+			this->head = _alloc->allocate(1, 0);
+			_alloc->construct(this->head, 0);
+			this->head->data = 0;
+			this->head->next = this->head;
+			this->head->prev = this->head;
+			this->last_ptr = this->head;
+			this->assign(x.begin(), x.end());
         }
 		List& operator= (const List& x) {
 			this->clear();
@@ -136,9 +161,12 @@ namespace   ft {
 			return this->last_ptr->next->data;
 		}
 //		  ____ITERATOR____
-        ListIterator<T>		begin() {
+        iterator 		begin() {
 			return ListIterator<T>(this->last_ptr->next);
         }
+		const_iterator 	begin() const{
+			return ConstListIterator<T>(this->last_ptr->next);
+		}
 		reverse_iterator	rbegin() {
 			return ReverseListIterator<T>(this->last_ptr->prev);
         }
@@ -147,6 +175,9 @@ namespace   ft {
 		}
 		ListIterator<T>		end() {
 			return ListIterator<T>(this->last_ptr);
+		}
+		const_iterator 		end() const{
+			return ConstListIterator<T>(this->last_ptr);
 		}
 		reverse_iterator	rend() {
 			return ReverseListIterator<T>(this->last_ptr);
@@ -243,12 +274,12 @@ namespace   ft {
         }
 //        ____SPLICE____
 		void	splice (ListIterator<T> position, List& x) {
-			ft::ListIterator<T>	it = x.begin();
-			ft::ListIterator<T>	it2 = x.end();
+			ft::ConstListIterator<T>	it = x.begin();
+			ft::ConstListIterator<T>	it2 = x.end();
 			this->splice(position, x, it, it2);
         }
 		void splice (ListIterator<T> position, List& x, ListIterator<T> i) {
-        	ft::ListIterator<T> it = i;
+        	ft::ConstListIterator<T> it = i;
 			this->splice(position, x, i, ++it);
         }
 		void	splice (ListIterator<T> position, List& x, ListIterator<T> first, ListIterator<T> last) {
@@ -281,32 +312,32 @@ namespace   ft {
         }
 //        ____REMOVE____
 		void	remove (const value_type & val) {
-			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+			for (ft::ConstListIterator<T> it = this->begin(); it != this->end(); ++it)
 				if (*it == val)
 					it = this->erase(it);
         }
 
 		template <class Predicate>
 		void	remove_if (Predicate pred) {
-			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+			for (ft::ConstListIterator<T> it = this->begin(); it != this->end(); ++it)
 				if (pred(*it) == true)
 					it = this->erase(it);
         }
 //        ____UNIQUE____
 		void	unique() {
-			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+			for (ft::ConstListIterator<T> it = this->begin(); it != this->end(); ++it)
 				if (it.getPtr()->data == it.getPtr()->prev->data)
 					erase(it);
         }
 		template <class BinaryPredicate>
 		void	unique (BinaryPredicate binary_pred) {
-			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it)
+			for (ft::ConstListIterator<T> it = this->begin(); it != this->end(); ++it)
 				if (binary_pred(it.getPtr()->data, it.getPtr()->prev->data) == true)
 					erase(it);
         }
 //        ____SORT____
 		void	sort() {
-			ft::ListIterator<T> it = this->begin();
+			ft::ConstListIterator<T> it = this->begin();
 			while (it.getPtr()->next != this->end().getPtr()) {
 				if (it.getPtr()->data > it.getPtr()->next->data) {
 					this->swap_node(it.getPtr(), it.getPtr()->next);
@@ -318,7 +349,7 @@ namespace   ft {
         }
 		template <class Compare>
 		void	sort (Compare comp) {
-			ft::ListIterator<T> it = this->begin();
+			ft::ConstListIterator<T> it = this->begin();
 			while (it.getPtr()->next != this->end().getPtr()) {
 				if (comp(it.getPtr()->data, it.getPtr()->next->data) == true) {
 					this->swap_node(it.getPtr(), it.getPtr()->next);
@@ -329,7 +360,7 @@ namespace   ft {
 			}
         }
 		void	reverse() {
-			for (ft::ListIterator<T> it = this->begin(); it != this->end(); ++it) {
+			for (ft::ConstListIterator<T> it = this->begin(); it != this->end(); ++it) {
 				this->push_front(*it);
 				this->erase(it);
 			}
@@ -406,6 +437,77 @@ namespace   ft {
 			}
 			return i;
 		}
+
     };
 }
+
+//		____BOOL____
+template <class T, class Alloc>
+bool operator== (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+	if (lhs.size() != rhs.size())
+		return false;
+	ft::ConstListIterator<T> bg_lhs = lhs.begin();
+	ft::ConstListIterator<T> end_lhs = lhs.end();
+	ft::ConstListIterator<T> bg_rhs = lhs.begin();
+	ft::ConstListIterator<T> end_rhs = lhs.end();
+	while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+	{
+		if (*bg_rhs != *bg_lhs)
+			return false;
+		bg_lhs++;
+		bg_rhs++;
+	}
+	return (bg_rhs == end_rhs && bg_lhs == end_lhs);
+}
+	template <class T, class Alloc>
+	bool operator!= (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+		return !operator==(lhs, rhs);
+}
+template <class T, class Alloc>
+bool operator<  (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+	ft::ConstListIterator<T> bg_lhs = lhs.begin();
+	ft::ConstListIterator<T> end_lhs = lhs.end();
+	ft::ConstListIterator<T> bg_rhs = lhs.begin();
+	ft::ConstListIterator<T> end_rhs = lhs.end();
+
+	while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+	{
+		if (*bg_lhs < *bg_rhs)
+			return true;
+		if (*bg_rhs < *bg_lhs)
+			return false;
+		bg_lhs++;
+		bg_rhs++;
+		}
+	return (bg_lhs == end_lhs && bg_rhs != end_rhs);
+}
+template <class T, class Alloc>
+bool operator<= (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+	ft::ConstListIterator<T> bg_lhs = lhs.begin();
+	ft::ConstListIterator<T> end_lhs = lhs.end();
+	ft::ConstListIterator<T> bg_rhs = lhs.begin();
+	ft::ConstListIterator<T> end_rhs = lhs.end();
+	while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+	{
+		if (*bg_lhs < *bg_rhs)
+			return true;
+		if (*bg_rhs < *bg_lhs)
+			return false;
+		bg_lhs++;
+		bg_rhs++;
+	}
+	if (bg_lhs == end_lhs && (bg_rhs != end_rhs ||bg_rhs == end_rhs ))
+		return true;
+	return false;
+}
+template <class T, class Alloc>
+bool operator>  (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+	return operator<(rhs, lhs);
+}
+template <class T, class Alloc>
+bool operator>= (const ft::List<T,Alloc>& lhs, const ft::List<T,Alloc>& rhs) {
+	return operator<=(rhs, lhs);
+}
+
+
 #endif //FT_CONTAINERS_LIST_HPP
