@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Iterator.hpp
+iterator
+-
+Node.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Node.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/List.hpp
+string
+-
+iostream
+-
+Node.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Node.hpp
+Iterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Iterator.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Main.cpp
+List.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/List.hpp
+list
+-
+Iterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Iterator.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/List/Node.hpp
+
