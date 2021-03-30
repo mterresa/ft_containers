@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Vector/Main.cpp
+Vector.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Vector/Vector.hpp
+vector
+-
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Vector/Vector.hpp
+string
+-
+iostream
+-
+VectorIterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Vector/VectorIterator.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Vector/VectorIterator.hpp
+iterator
+-
+

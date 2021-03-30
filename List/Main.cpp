@@ -29,6 +29,7 @@ bool mycomparison (int first, int second)
 //	std::cout << *it << "\n";
 //    std::string c = "fjkjd";
 //    *reinterpret_cast<int*>(&c) += 102;
+//		*reinterpret_cast<int*>(&this->last_ptr->data) += 1;
 //    std::cout << c << std::endl;
 //	-----------------------------------TEST_BACK----------------------------------
 //	ft::List<int>	test;

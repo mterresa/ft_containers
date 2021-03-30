@@ -58,7 +58,7 @@ namespace   ft {
                 this->push_back(val);
         }
 		template <class InputIterator>
-		List (InputIterator first, _ENABLE_INPUT(InputIterator) last, const allocator_type& alloc = allocator_type()) {
+		List (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), char (*)[sizeof(*first)] = NULL) {
 			this->head = _alloc->allocate(1, 0);
 			_alloc->construct(this->head, 0);
 			this->head->data = 0;
