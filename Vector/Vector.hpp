@@ -38,9 +38,19 @@ namespace   ft {
 			for (size_type i = 0 ; i < n ; ++i)
 				this->push_back(val);
 		}
-//		template <class InputIterator>
-//		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-//		vector (const vector& x);
+		template <class InputIterator>
+		Vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : len(0), _capacity(0) {
+			this->template assign(first, last);
+		}
+		Vector (const Vector& x) : len(0), _capacity(0) {
+			this->template assign(x.begin(), x.end());
+		}
+		Vector&	operator=(const Vector& x) {
+			if (*this == x)
+				return *this;
+			this->template assign(x.begin(), x.end());
+			return *this;
+		}
 		~Vector() {
 			this->clear();
 			_alloc->deallocate(this->_array, this->_capacity);
@@ -62,6 +72,25 @@ namespace   ft {
 //		const_iterator end() const;
 //		Capacity:
 		size_type	size() const { return this->len; }
+		size_type	max_size() const {
+			return this->_alloc->max_size();
+		}
+		void	resize (size_type n, value_type val = value_type ()) {
+			while (this->len < n)
+				this->push_back(val);
+			while (this->len > n)
+				this->pop_back();
+		}
+		size_type	capacity() const {
+			return this->_capacity;
+		}
+		bool	empty () const {
+			return this->len == 0;
+		}
+		void	reserve (size_type n) {
+			if (n > this->_capacity)
+				this->rewrite2(n);
+		}
 //		Modifiers:
 		template <class InputIterator>
 		void assign (InputIterator first, InputIterator last, char (*)[sizeof(*first)] = NULL) {
@@ -101,6 +130,28 @@ namespace   ft {
 			}
 			this->len += n;
 		}
+		iterator	erase (iterator position) {
+			iterator  ptr = position;
+			for (; position != this->end(); ++position)
+				*position = *(position + 1);
+			this->len--;
+			return ptr;
+		}
+		iterator	erase (iterator first, iterator last) {
+			iterator 	ptr = first;
+			for (; last != this->end(); ++last, ++first)
+				*first = *last;
+			this->len -= this->template distance(first, last);
+			return first;
+		}
+		void	swap (Vector& x) {
+			this->template swap_tmp(this->_array, x._array);
+			this->template swap_tmp(this->_capacity, x._capacity);
+			this->template swap_tmp(this->len, x.len);
+			this->template swap_tmp(this->alloc, x.alloc);
+			this->template swap_tmp(this->_alloc, x._alloc);
+		}
+
 		void	push_back (const value_type& val) {
 			if (this->len == this->_capacity) {
 				if (this->len == 0) {
@@ -132,7 +183,36 @@ namespace   ft {
 		const_reference	operator[](size_type n) const {
 			return this->_array[n];
 		}
-
+		reference	at (size_type n) {
+			if (n >= this->len)
+				throw std::out_of_range("out_of_range");
+			return this->_array[n];
+		}
+		const_reference at (size_type n) const {
+			if (n >= this->len)
+				throw std::out_of_range("out_of_range");
+			return this->_array[n];
+		}
+		reference	front() {
+			return this->_array[0];
+		}
+		const_reference front() const {
+			return this->_array[0];
+		}
+		reference back() {
+			if (this->len)
+				return this->_array[this->len - 1];
+			return this->_array[this->len];
+		}
+		const_reference back() const {
+			if (this->len)
+				return this->_array[this->len - 1];
+			return this->_array[this->len];
+		}
+//		Allocator:
+		allocator_type	get_allocator() const {
+			return alloc;
+		}
 	private:
 		void 	rewrite() {
 			pointer 	tmp;
@@ -163,6 +243,12 @@ namespace   ft {
 				rmp++;
 			}
 			return i;
+		}
+		template<class tmp>
+		void 	swap_tmp(tmp &first, tmp &second) {
+			tmp		cpy = first;
+			first = second;
+			second = cpy;
 		}
 	};
 }
