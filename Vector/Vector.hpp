@@ -22,9 +22,9 @@ namespace   ft {
 		typedef ptrdiff_t   difference_type;
 		typedef size_t      size_type;
 		typedef VectorIterator<T>              iterator;
-//		typedef ConstListIterator<T>         const_iterator;
-//		typedef ReverseListIterator<T>       reverse_iterator;
-//		typedef ReverseConstListIterator<T>  const_reverse_iterator;
+		typedef ConstVectorIterator<T>         const_iterator;
+		typedef ReverseVectorIterator<T>       reverse_iterator;
+		typedef ConstReverseVectorIterator<T>  const_reverse_iterator;
 	private:
 		pointer			_array;
 		size_type		len;
@@ -59,17 +59,27 @@ namespace   ft {
 		iterator	begin() {
 			return VectorIterator<T>(this->_array);
 		}
-		iterator	begin() const{
-			return VectorIterator<T>(this->_array);
+		const_iterator begin() const {
+			return ConstVectorIterator<T>(this->_array);
 		}
-//		const_iterator begin() const;
 		iterator	end() {
 			return VectorIterator<T>(this->_array + this->len);
 		}
-		iterator	end() const{
-			return VectorIterator<T>(this->_array + this->len);
+		const_iterator	end() const {
+			return ConstVectorIterator<T>(this->_array + this->len);
 		}
-//		const_iterator end() const;
+		reverse_iterator	rbegin() {
+			return reverse_iterator(this->_array + this->len - 1);
+		}
+		const_reverse_iterator rbegin() const {
+			return const_reverse_iterator(this->_array + this->len - 1);
+		}
+		reverse_iterator rend() {
+			return reverse_iterator(this->_array - 1);
+		}
+		const_reverse_iterator rend() const {
+			return const_reverse_iterator(this->_array - 1);
+		}
 //		Capacity:
 		size_type	size() const { return this->len; }
 		size_type	max_size() const {
@@ -251,6 +261,83 @@ namespace   ft {
 			second = cpy;
 		}
 	};
+	template < class T, class Alloc >
+	void swap(Vector<T,Alloc> &x, Vector<T,Alloc> &y) {
+		x.swap(y);
+	}
+	template <class T, class Alloc>
+	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		if (lhs.size() != rhs.size())
+			return false;
+		ft::ConstVectorIterator<T>	it_begin_lhs = lhs.begin();
+		ft::ConstVectorIterator<T>	it_end_lhs = lhs.end();
+		ft::ConstVectorIterator<T>	it_begin_rhs = rhs.begin();
+		ft::ConstVectorIterator<T>	it_end_rhs = rhs.end();
+		while (it_begin_lhs != it_end_lhs && it_begin_rhs != it_end_rhs)
+		{
+			if (*it_begin_rhs != *it_begin_lhs)
+				return false;
+			it_begin_lhs++;
+			it_begin_rhs++;
+		}
+		return (it_begin_rhs == it_end_rhs && it_begin_lhs == it_end_lhs);
+	}
+//	(2)
+	template <class T, class Alloc>
+	bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		return !operator==(lhs, rhs);
+	}
+
+//	(3)
+	template <class T, class Alloc>
+	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		ft::ConstVectorIterator<T> bg_lhs = lhs.begin();
+		ft::ConstVectorIterator<T> end_lhs = lhs.end();
+		ft::ConstVectorIterator<T> bg_rhs = lhs.begin();
+		ft::ConstVectorIterator<T> end_rhs = lhs.end();
+
+		while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+		{
+			if (*bg_lhs < *bg_rhs)
+				return true;
+			if (*bg_rhs < *bg_lhs)
+				return false;
+			bg_lhs++;
+			bg_rhs++;
+		}
+		return (bg_lhs == end_lhs && bg_rhs != end_rhs);
+	}
+//	(4)
+	template <class T, class Alloc>
+	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		ft::ConstVectorIterator<T> bg_lhs = lhs.begin();
+		ft::ConstVectorIterator<T> end_lhs = lhs.end();
+		ft::ConstVectorIterator<T> bg_rhs = lhs.begin();
+		ft::ConstVectorIterator<T> end_rhs = lhs.end();
+
+		while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+		{
+			if (*bg_lhs < *bg_rhs)
+				return true;
+			if (*bg_rhs < *bg_lhs)
+				return false;
+			bg_lhs++;
+			bg_rhs++;
+		}
+		if (bg_lhs == end_lhs && (bg_rhs != end_rhs ||bg_rhs == end_rhs ))
+			return true;
+		return false;
+	}
+//	(5)
+	template <class T, class Alloc>
+	bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		return operator<(rhs, lhs);
+	}
+//	(6)
+	template <class T, class Alloc>
+	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+		return operator<=(rhs, lhs);
+	}
 }
 
 #endif //VECTOR_VECTOR_HPP

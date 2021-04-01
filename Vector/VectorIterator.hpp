@@ -97,15 +97,253 @@ namespace   ft {
 		T		&operator[](ptrdiff_t n) {
 			return this->array[n];
 		}
-//		template<typename T2, typename P, typename R, class C>
-//		friend inline bool operator==(const VectorIterator<T>& lhs, const VectorIterator<T>& rhs) {
-//			return (lhs.array == rhs.array);
-//		}
-//		template<typename T2, typename P, typename R, class C>
-//		friend inline bool operator!=(const VectorIterator<T>& lhs, const VectorIterator<T>& rhs) {
-//			return (lhs != rhs);
-//		}
+	};
+
+	template<class T>
+	class ReverseVectorIterator : public iterator<std::random_access_iterator_tag, T> {
+	private:
+		T		*array;
+	public:
+		ReverseVectorIterator() : array(0) {}
+		ReverseVectorIterator(T *cpy) {
+			this->array = cpy;
+		}
+		ReverseVectorIterator(const ReverseVectorIterator &cpy) : array(cpy.array) {}
+		~ReverseVectorIterator() {};
+		ReverseVectorIterator<T>	&operator=(const ReverseVectorIterator<T> &cpy) {
+			if (this != &cpy) {
+				this->array = cpy.array;
+			}
+			return *this;
+		}
+		T	&operator*() const{
+			return *(this->array);
+		}
+		T	&operator->() const{
+			return &(this->array);
+		}
+		ReverseVectorIterator<T>	operator++(int) {
+			ReverseVectorIterator<T> old = *this;
+			this->array--;
+			return old;
+		}
+		ReverseVectorIterator<T>&	operator++() {
+			this->array--;
+			return *this;
+		}
+		ReverseVectorIterator<T>	operator--(int) {
+			ReverseVectorIterator<T> old = *this;
+			this->array++;
+			return(old);
+		}
+		ReverseVectorIterator<T>&	operator--() {
+			this->array++;
+			return(*this);
+		}
+		ReverseVectorIterator<T>	operator+(ptrdiff_t n) const {
+			ReverseVectorIterator<T> old = *this;
+			old.array -= n;
+			return old;
+		}
+		ReverseVectorIterator<T>	&operator+=(ptrdiff_t n) {
+			this->array -= n;
+			return *this;
+		}
+		ReverseVectorIterator<T>	operator-(ptrdiff_t n) const {
+			ReverseVectorIterator<T> old = *this;
+			old.array += n;
+			return old;
+		}
+		ReverseVectorIterator<T>	&operator-=(ptrdiff_t n) {
+			this->array += n;
+			return *this;
+		}
+		bool		operator!=(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array != cpy.array);
+		}
+		bool		operator==(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array == cpy.array);
+		}
+		bool		operator<(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array < cpy.array);
+		}
+		bool		operator<=(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array <= cpy.array);
+		}
+		bool		operator>(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array > cpy.array);
+		}
+		bool		operator>=(const ReverseVectorIterator<T> &cpy) const{
+			return (this->array >= cpy.array);
+		}
+		T		&operator[](ptrdiff_t n) {
+			return this->array[n];
+		}
+	};
+
+	template<class T>
+	class ConstVectorIterator : public iterator<std::random_access_iterator_tag, const T> {
+	private:
+		T		*array;
+	public:
+		ConstVectorIterator() : array(0) {}
+		ConstVectorIterator(T *cpy) {
+			this->array = cpy;
+		}
+		ConstVectorIterator(const ConstVectorIterator &cpy) : array(cpy.array) {}
+		~ConstVectorIterator() {};
+		ConstVectorIterator<T>	&operator=(const ConstVectorIterator<T> &cpy) {
+			if (this != &cpy) {
+				this->array = cpy.array;
+			}
+			return *this;
+		}
+		T	&operator*() const{
+			return *(this->array);
+		}
+		T	&operator->() const{
+			return &(this->array);
+		}
+		ConstVectorIterator<T>	operator++(int) {
+			ConstVectorIterator<T> old = *this;
+			this->array++;
+			return old;
+		}
+		ConstVectorIterator<T>&	operator++() {
+			this->array++;
+			return *this;
+		}
+		ConstVectorIterator<T>	operator--(int) {
+			ConstVectorIterator<T> old = *this;
+			this->array--;
+			return(old);
+		}
+		ConstVectorIterator<T>&	operator--() {
+			this->array--;
+			return(*this);
+		}
+		ConstVectorIterator<T>	operator+(ptrdiff_t n) const {
+			ConstVectorIterator<T> old = *this;
+			old.array += n;
+			return old;
+		}
+		ConstVectorIterator<T>	&operator+=(ptrdiff_t n) {
+			this->array += n;
+			return *this;
+		}
+		ConstVectorIterator<T>	operator-(ptrdiff_t n) const {
+			ConstVectorIterator<T> old = *this;
+			old.array -= n;
+			return old;
+		}
+		ConstVectorIterator<T>	&operator-=(ptrdiff_t n) {
+			this->array -= n;
+			return *this;
+		}
+		bool		operator!=(const ConstVectorIterator<T> &cpy) const{
+			return (this->array != cpy.array);
+		}
+		bool		operator==(const ConstVectorIterator<T> &cpy) const{
+			return (this->array == cpy.array);
+		}
+		bool		operator<(const ConstVectorIterator<T> &cpy) const{
+			return (this->array < cpy.array);
+		}
+		bool		operator<=(const ConstVectorIterator<T> &cpy) const{
+			return (this->array <= cpy.array);
+		}
+		bool		operator>(const ConstVectorIterator<T> &cpy) const{
+			return (this->array > cpy.array);
+		}
+		bool		operator>=(const ConstVectorIterator<T> &cpy) const{
+			return (this->array >= cpy.array);
+		}
+		T		&operator[](ptrdiff_t n) {
+			return this->array[n];
+		}
+	};
+
+	template<class T>
+	class ConstReverseVectorIterator : public iterator<std::random_access_iterator_tag, const T> {
+	private:
+		T		*array;
+	public:
+		ConstReverseVectorIterator() : array(0) {}
+		ConstReverseVectorIterator(T *cpy) {
+			this->array = cpy;
+		}
+		ConstReverseVectorIterator(const ConstReverseVectorIterator &cpy) : array(cpy.array) {}
+		~ConstReverseVectorIterator() {};
+		ConstReverseVectorIterator<T>	&operator=(const ConstReverseVectorIterator<T> &cpy) {
+			if (this != &cpy) {
+				this->array = cpy.array;
+			}
+			return *this;
+		}
+		T	&operator*() const{
+			return *(this->array);
+		}
+		T	&operator->() const{
+			return &(this->array);
+		}
+		ConstReverseVectorIterator<T>	operator++(int) {
+			ConstReverseVectorIterator<T> old = *this;
+			this->array--;
+			return old;
+		}
+		ConstReverseVectorIterator<T>&	operator++() {
+			this->array--;
+			return *this;
+		}
+		ConstReverseVectorIterator<T>	operator--(int) {
+			ConstReverseVectorIterator<T> old = *this;
+			this->array++;
+			return(old);
+		}
+		ConstReverseVectorIterator<T>&	operator--() {
+			this->array++;
+			return(*this);
+		}
+		ConstReverseVectorIterator<T>	operator+(ptrdiff_t n) const {
+			ConstReverseVectorIterator<T> old = *this;
+			old.array -= n;
+			return old;
+		}
+		ConstReverseVectorIterator<T>	&operator+=(ptrdiff_t n) {
+			this->array -= n;
+			return *this;
+		}
+		ConstReverseVectorIterator<T>	operator-(ptrdiff_t n) const {
+			ConstReverseVectorIterator<T> old = *this;
+			old.array += n;
+			return old;
+		}
+		ConstReverseVectorIterator<T>	&operator-=(ptrdiff_t n) {
+			this->array += n;
+			return *this;
+		}
+		bool		operator!=(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array != cpy.array);
+		}
+		bool		operator==(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array == cpy.array);
+		}
+		bool		operator<(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array < cpy.array);
+		}
+		bool		operator<=(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array <= cpy.array);
+		}
+		bool		operator>(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array > cpy.array);
+		}
+		bool		operator>=(const ConstReverseVectorIterator<T> &cpy) const{
+			return (this->array >= cpy.array);
+		}
+		T		&operator[](ptrdiff_t n) {
+			return this->array[n];
+		}
 	};
 }
 
-#endif //VECTOR_VECTORITERATOR_HPP
+#endif //VECTOR_ReverseVectorIterator_HPP
