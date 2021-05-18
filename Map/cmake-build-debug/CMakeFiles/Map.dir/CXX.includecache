@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/Map.hpp
+string
+-
+iostream
+-
+NodeMap.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/NodeMap.hpp
+MapIterator.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/MapIterator.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/MapIterator.hpp
+iterator
+-
+NodeMap.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/NodeMap.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/NodeMap.hpp
+
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/main.cpp
+iostream
+-
+Map.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/Map.hpp
+string
+-
+map
+-
+list
+-
+

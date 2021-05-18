@@ -1,0 +1,3 @@
+/Users/mterresa/Desktop/my_git/ft_conteiners/Stack/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/mterresa/Desktop/my_git/ft_conteiners/Stack/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mterresa/Desktop/my_git/ft_conteiners/Stack/cmake-build-debug/CMakeFiles/Stack.dir
