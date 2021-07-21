@@ -37,8 +37,8 @@ namespace   ft {
 		T	&operator*() const{
 			return *(this->array);
 		}
-		T	&operator->() const{
-			return &(this->array);
+		T	*operator->() const{
+			return (this->array);
 		}
 		VectorIterator<T>	operator++(int) {
 			VectorIterator<T> old = *this;
@@ -119,8 +119,8 @@ namespace   ft {
 		T	&operator*() const{
 			return *(this->array);
 		}
-		T	&operator->() const{
-			return &(this->array);
+		T	*operator->() const{
+			return (this->array);
 		}
 		ReverseVectorIterator<T>	operator++(int) {
 			ReverseVectorIterator<T> old = *this;
@@ -177,7 +177,9 @@ namespace   ft {
 			return (this->array >= cpy.array);
 		}
 		T		&operator[](ptrdiff_t n) {
-			return this->array[n];
+			ReverseVectorIterator<T>	cmp(this->array);
+			cmp += n;
+			return *cmp;
 		}
 	};
 
@@ -201,8 +203,8 @@ namespace   ft {
 		T	&operator*() const{
 			return *(this->array);
 		}
-		T	&operator->() const{
-			return &(this->array);
+		T	*operator->() const{
+			return (this->array);
 		}
 		ConstVectorIterator<T>	operator++(int) {
 			ConstVectorIterator<T> old = *this;
@@ -283,8 +285,8 @@ namespace   ft {
 		T	&operator*() const{
 			return *(this->array);
 		}
-		T	&operator->() const{
-			return &(this->array);
+		T	*operator->() const{
+			return (this->array);
 		}
 		ConstReverseVectorIterator<T>	operator++(int) {
 			ConstReverseVectorIterator<T> old = *this;
@@ -341,7 +343,9 @@ namespace   ft {
 			return (this->array >= cpy.array);
 		}
 		T		&operator[](ptrdiff_t n) {
-			return this->array[n];
+			ConstReverseVectorIterator<T>	cmp(this->array);
+			cmp += n;
+			return *cmp;
 		}
 	};
 }

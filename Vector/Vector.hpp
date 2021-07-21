@@ -40,10 +40,10 @@ namespace   ft {
 		}
 		template <class InputIterator>
 		Vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : len(0), _capacity(0) {
-			this->template assign(first, last);
+			this->assign(first, last);
 		}
 		Vector (const Vector& x) : len(0), _capacity(0) {
-			this->template assign(x.begin(), x.end());
+			this->assign(x.begin(), x.end());
 		}
 		Vector&	operator=(const Vector& x) {
 			if (*this == x)
@@ -114,12 +114,19 @@ namespace   ft {
 				this->push_back(val);
 		}
 		iterator	insert (iterator position, const value_type& val) {
+			size_type dist = this->template distance(this->begin(), position);
 			this->insert(position, 1, val);
+//			std::cout << dist << "|" << *(this->begin()) << " ";
+			return this->begin() + dist;
 		}
 		void	insert (iterator position, size_type n, const value_type& val) {
 			size_type dist = this->distance(position, this->end());
-			if (this->_capacity <= this->len + n)
-				this->rewrite2(this->len + n);
+			if (this->_capacity < this->len + n) {
+				if (this->_capacity == 0 || this->_capacity * 2 < this->len + n)
+					this->rewrite2(this->len + n);
+				else
+					this->rewrite();
+			}
 			for (size_type i = 0; i < dist; ++i)
 				_alloc->template construct(this->_array + this->len + n - 1 - i, *(this->_array + this->len - 1 - i));
 			for (size_type i = 0; i < n; ++i) {
@@ -131,12 +138,17 @@ namespace   ft {
 		void	insert (iterator position, InputIterator first, InputIterator last, char (*)[sizeof(*first)] = NULL) {
 			size_type dist = this->distance(position, this->end());
 			size_type n = this->distance(first, last);
-			if (this->_capacity <= this->len + n)
-				this->rewrite2(this->len + n);
+			InputIterator copy = first;
+			if (this->_capacity < this->len + n) {
+				if (this->_capacity == 0 || this->_capacity * 2 < this->len + n)
+					this->rewrite2(this->len + n);
+				else
+					this->rewrite();
+			}
 			for (size_type i = 0; i < dist; ++i)
 				_alloc->template construct(this->_array + this->len + n - 1 - i, *(this->_array + this->len - 1 - i));
 			for (size_type i = 0; i < n; ++i) {
-				_alloc->template construct(this->_array + this->len - dist + i, *(first + i));
+				_alloc->construct(this->_array + this->len - dist + i, *(copy++));
 			}
 			this->len += n;
 		}
@@ -152,7 +164,7 @@ namespace   ft {
 			for (; last != this->end(); ++last, ++first)
 				*first = *last;
 			this->len -= this->template distance(first, last);
-			return first;
+			return ptr;
 		}
 		void	swap (Vector& x) {
 			this->template swap_tmp(this->_array, x._array);
@@ -293,40 +305,24 @@ namespace   ft {
 	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
 		ft::ConstVectorIterator<T> bg_lhs = lhs.begin();
 		ft::ConstVectorIterator<T> end_lhs = lhs.end();
-		ft::ConstVectorIterator<T> bg_rhs = lhs.begin();
-		ft::ConstVectorIterator<T> end_rhs = lhs.end();
+		ft::ConstVectorIterator<T> bg_rhs = rhs.begin();
+		ft::ConstVectorIterator<T> end_rhs = rhs.end();
 
-		while (bg_lhs != end_lhs && bg_rhs != end_rhs)
+		while (end_lhs != bg_lhs)
 		{
+			if (end_rhs == bg_rhs ||  *bg_rhs < *bg_lhs)
+				return false;
 			if (*bg_lhs < *bg_rhs)
 				return true;
-			if (*bg_rhs < *bg_lhs)
-				return false;
 			bg_lhs++;
 			bg_rhs++;
 		}
-		return (bg_lhs == end_lhs && bg_rhs != end_rhs);
+		return end_rhs != bg_rhs;
 	}
 //	(4)
 	template <class T, class Alloc>
 	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
-		ft::ConstVectorIterator<T> bg_lhs = lhs.begin();
-		ft::ConstVectorIterator<T> end_lhs = lhs.end();
-		ft::ConstVectorIterator<T> bg_rhs = lhs.begin();
-		ft::ConstVectorIterator<T> end_rhs = lhs.end();
-
-		while (bg_lhs != end_lhs && bg_rhs != end_rhs)
-		{
-			if (*bg_lhs < *bg_rhs)
-				return true;
-			if (*bg_rhs < *bg_lhs)
-				return false;
-			bg_lhs++;
-			bg_rhs++;
-		}
-		if (bg_lhs == end_lhs && (bg_rhs != end_rhs ||bg_rhs == end_rhs ))
-			return true;
-		return false;
+		return lhs < rhs || lhs == rhs;
 	}
 //	(5)
 	template <class T, class Alloc>
