@@ -13,14 +13,14 @@ iostream
 -
 MapIterator.hpp
 /Users/mterresa/Desktop/my_git/ft_conteiners/Map/MapIterator.hpp
-tree.hpp
-/Users/mterresa/Desktop/my_git/ft_conteiners/Map/tree.hpp
+new_tree.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/new_tree.hpp
 
 /Users/mterresa/Desktop/my_git/ft_conteiners/Map/MapIterator.hpp
 iterator
 -
-tree.hpp
-/Users/mterresa/Desktop/my_git/ft_conteiners/Map/tree.hpp
+new_tree.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/new_tree.hpp
 
 /Users/mterresa/Desktop/my_git/ft_conteiners/Map/main.cpp
 iostream
@@ -31,12 +31,30 @@ map
 -
 list
 -
-tree.hpp
-/Users/mterresa/Desktop/my_git/ft_conteiners/Map/tree.hpp
 MapIterator.hpp
 /Users/mterresa/Desktop/my_git/ft_conteiners/Map/MapIterator.hpp
 Map.hpp
 /Users/mterresa/Desktop/my_git/ft_conteiners/Map/Map.hpp
 
-/Users/mterresa/Desktop/my_git/ft_conteiners/Map/tree.hpp
+/Users/mterresa/Desktop/my_git/ft_conteiners/Map/new_tree.hpp
+cstddef
+-
+cstdio
+-
+ios
+-
+iostream
+-
+iterator
+-
+memory
+-
+ostream
+-
+stdexcept
+-
+string
+-
+utility
+-
 

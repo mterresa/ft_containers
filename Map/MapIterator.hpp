@@ -6,7 +6,8 @@
 #define MAP_MAPITERATOR_HPP
 
 #include <iterator>
-#include "tree.hpp"
+//#include "tree.hpp"
+#include "new_tree.hpp"
 
 namespace   ft {
 	template<class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
@@ -20,149 +21,59 @@ namespace   ft {
 
 	template<class Key, class T>
 	class MapIterator : public iterator<std::bidirectional_iterator_tag, T> {
-	private:
-		NodeMap <Key, T> *ptr;
-		tree<Key, T>	tree;
 	public:
-		MapIterator() : tree() {
-			ptr = tree.end;
-		}
+		typedef Key key_type;
+		typedef T value_type;
+	private:
+		avl_tree_node<Key, T>	*ptr;
+		avl_tree<Key, T>		tree;
+	public:
+		MapIterator() : ptr(NULL) {}
 
-		MapIterator(const MapIterator<Key, T> &cpy) : tree(cpy.tree) {
+		MapIterator(const MapIterator<Key, T> &cpy){
 			*this = cpy;
 		}
 
 		MapIterator<Key, T> &operator=(const MapIterator<Key, T> &cpy) {
 			if (this != &cpy) {
 				this->ptr = cpy.ptr;
-				this->tree = cpy.tree;
 			}
 			return *this;
 		}
 
-		MapIterator(NodeMap<Key, T> *ptr) : tree(ptr) {
+		MapIterator(avl_tree_node<Key, T> *ptr) {
 			this->ptr = ptr;
 		}
 
 		~MapIterator() {}
 
 		ft::pair<Key, T>	&operator*() const {
-			return (ptr->m_pair);
+			return (ptr->pair);
 		}
 //
 		ft::pair<Key, T>	*operator->() const {
-			return (&ptr->m_pair);
+			return (&ptr->pair);
 		}
 //
 		MapIterator<Key, T> &operator++() {
-			if (this->ptr->first == tree.max->first)
-				this->ptr = tree.end;
-			else if (this->ptr == tree.end)
-				this->ptr = tree.min;
-			else if (this->ptr->right && this->ptr->right->first > this->ptr->first) {
-				this->ptr = this->ptr->right;
-				while (this->ptr->left)
-					this->ptr = this->ptr->left;
-			}
-			else if (this->ptr->parent && this->ptr->parent->first > this->ptr->first)
-				this->ptr = this->ptr->parent;
-			else if (this->ptr->parent->first < this->ptr->first) {
-				Key tmp = this->ptr->first;
-				while (this->ptr->parent) {
-					this->ptr = this->ptr->parent;
-					if (this->ptr->first > tmp)
-						return *this;
-					if (this->ptr->right->first > tmp) {
-						this->ptr = this->ptr->right;
-						break;
-					}
-				}
-			}
+			ptr = tree.min_to_max(ptr);
 			return *this;
 		}
 
 		MapIterator<Key, T> operator++(int) {
-			MapIterator<Key, T> cpy = ptr;
-			if (this->ptr->first == tree.max->first)
-				this->ptr = tree.end;
-			else if (this->ptr == tree.end)
-				this->ptr = tree.min;
-			else if (this->ptr->right && this->ptr->right->first > this->ptr->first) {
-				this->ptr = this->ptr->right;
-				while (this->ptr->left)
-					this->ptr = this->ptr->left;
-			}
-			else if (this->ptr->parent && this->ptr->parent->first > this->ptr->first)
-				this->ptr = this->ptr->parent;
-			else if (this->ptr->parent->first < this->ptr->first) {
-				Key tmp = this->ptr->first;
-				while (this->ptr->parent) {
-					this->ptr = this->ptr->parent;
-					if (this->ptr->first > tmp)
-						return cpy;
-					if (this->ptr->right->first > tmp) {
-						this->ptr = this->ptr->right;
-						break;
-					}
-				}
-			}
+			MapIterator<Key, T> cpy = *this;
+			ptr = tree.min_to_max(ptr);
 			return cpy;
 		}
 
 		MapIterator<Key, T> operator--() {
-			if (this->ptr->first == tree.min->first)
-				return this->ptr = tree.end;
-			else if (this->ptr == tree.end)
-				return this->ptr = tree.max;
-			else if (this->ptr->left && this->ptr->left->first < this->ptr->first) {
-				this->ptr = this->ptr->left;
-				while (this->ptr->right)
-					this->ptr = this->ptr->right;
-			}
-			else if (this->ptr->parent && this->ptr->parent->first < this->ptr->first)
-				this->ptr = this->ptr->parent;
-			else if (this->ptr->parent->first > this->ptr->first) {
-				Key tmp = this->ptr->first;
-				while (this->ptr->parent) {
-					this->ptr = this->ptr->parent;
-					if (this->ptr->first < tmp)
-						return *this;
-					if (this->ptr->left->first < tmp)
-						return this->ptr = this->ptr->left;
-				}
-			}
-			else
-				return NULL;
+			ptr = tree.max_to_min(ptr);
 			return *this;
 		}
 
 		MapIterator<Key, T> operator--(int) {
-			MapIterator<Key, T> cpy = ptr;
-			if (this->ptr->first == tree.min->first)
-				this->ptr = tree.end;
-			else if (this->ptr == tree.end)
-				this->ptr = tree.max;
-			else if (this->ptr->left && this->ptr->left->first < this->ptr->first) {
-				this->ptr = this->ptr->left;
-				while (this->ptr->right)
-					this->ptr = this->ptr->right;
-			}
-			else if (this->ptr->parent && this->ptr->parent->first < this->ptr->first)
-				this->ptr = this->ptr->parent;
-			else if (this->ptr->parent->first > this->ptr->first) {
-				Key tmp = this->ptr->first;
-				while (this->ptr->parent) {
-					this->ptr = this->ptr->parent;
-					if (this->ptr->first < tmp)
-						return cpy;
-					if (this->ptr->left->first < tmp) {
-						this->ptr = this->ptr->left;
-						break;
-					}
-				}
-			}
-			else
-				return NULL;
+			MapIterator<Key, T> cpy = *this;
+			ptr = tree.max_to_min(ptr);
 			return cpy;
 		}
 
@@ -195,11 +106,11 @@ namespace   ft {
 		iterator_type base() const  {
 			return this->n_it;
 		}
-		reference &operator*() const {
+		ft::pair<typename Iterator::key_type, typename Iterator::value_type> &operator*() const {
 			return *n_it;
 		}
 
-		reference *operator->() const {
+		ft::pair<typename Iterator::key_type, typename Iterator::value_type> *operator->() const {
 			return &(operator*());
 		}
 
